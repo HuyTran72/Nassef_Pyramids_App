@@ -5,11 +5,14 @@ import org.json.simple.*;
 
 public class EgyptianPyramidsAppExample {
 
-
+  private Scanner scan = new Scanner(System.in);
   // I've used two arrays here for O(1) reading of the pharaohs and pyramids.
   // other structures or additional structures can be used
   protected Pharaoh[] pharaohArray;
   protected Pyramid[] pyramidArray;
+
+  // Create a hash set for command 5
+  HashSet<Integer> pyramidID = new HashSet<Integer>();
 
   public static void main(String[] args) {
     // create and start the app
@@ -123,7 +126,7 @@ public class EgyptianPyramidsAppExample {
     return command;
   }
 
-  // print all pharaohs
+  // print all pharaohs (command 1)
   private void printAllPharaoh() {
     for (int i = 0; i < pharaohArray.length; i++) {
       printMenuLine();
@@ -132,12 +135,97 @@ public class EgyptianPyramidsAppExample {
     }
   }
 
+  // print all pyramids (command 3)
+  private void printAllPyramid() {
+    for (int i = 0; i < pyramidArray.length; i++) {
+      printMenuLine();
+      printPyramid(i);
+      printMenuLine();
+    }
+  }
+
+  // print a specific pharaoh (command 2)
+  private void printSpecificPharaoh() { 
+    String id;
+    System.out.print("Enter a Pharaoh id: ");
+    id = scan.nextLine();
+    Integer identity = Integer.parseInt(id);
+    for (int i = 0; i < pharaohArray.length; i++) {
+      if (pharaohArray[i].id == identity) {
+        printMenuLine();
+        pharaohArray[i].print();
+        printMenuLine();
+        break;
+      }
+    }
+  }
+
+  // print a specific pyramid (command 4)
+  private void printSpecificPyramid() { 
+    String id;
+    System.out.print("Enter a Pyramid id: ");
+    id = scan.nextLine();
+    Integer identity = Integer.parseInt(id);
+    for (int i = 0; i < pyramidArray.length; i++) {
+      if (pharaohArray[i].id == identity) {
+        printMenuLine();
+        printPyramid(i);
+        printMenuLine();
+        // Add requested pyramids to the hash set
+        pyramidID.add(identity);
+        break;
+      }
+    }
+  }
+
+  // print the requested pyramids (no duplicates)
+  private void printRequestedPyramid() {
+    printMenuLine();
+    System.out.println("List of requested Pyramids:");
+    System.out.printf("\tId\tName\n");
+    System.out.printf("\t---\t-----------------\n");
+    for (Integer i : pyramidID) {
+      System.out.printf("\t%d\t%s\n", i, pyramidArray[i].name);
+    }
+    printMenuLine();
+  }
+
+  // pyramids printing function for command 3 & 4
+  private void printPyramid(int id) {
+    Integer totalContribution = 0;
+    int count = 0;
+    System.out.printf("Pyramid %s\n", pyramidArray[id].name);
+    System.out.printf("\tid: %d\n", pyramidArray[id].id);
+    for (String contributor : pyramidArray[id].contributors) {
+      for (int i = 0; i < pharaohArray.length; i++) {
+        if (contributor.contentEquals(pharaohArray[i].hieroglyphic)) {
+          count++;
+          System.out.printf("\tContributtor %d: %s %d gold coins\n", count, pharaohArray[i].name, pharaohArray[i].contribution);
+          totalContribution += pharaohArray[i].contribution;
+        }
+      }
+    }
+    System.out.printf("\tTotal contribution: %d gold coins\n", totalContribution);
+  }
+
   private Boolean executeCommand(Scanner scan, Character command) {
     Boolean success = true;
 
     switch (command) {
       case '1':
         printAllPharaoh();
+        break;
+      case '2':
+        printSpecificPharaoh();
+        break;
+      case '3':
+        printAllPyramid();
+        break;
+      case '4':
+        printSpecificPyramid();
+        break;
+      case '5':
+        printRequestedPyramid();
         break;
       case 'q':
         System.out.println("Thank you for using Nassef's Egyptian Pyramid App!");
@@ -168,6 +256,10 @@ public class EgyptianPyramidsAppExample {
     System.out.printf("Command\t\tDescription\n");
     System.out.printf("-------\t\t---------------------------------------\n");
     printMenuCommand('1', "List all the pharoahs");
+    printMenuCommand('2', "Display a specific Egyptian Pharaoh");
+    printMenuCommand('3', "List all the pyramids");
+    printMenuCommand('4', "Display a specific pyramid");
+    printMenuCommand('5', "Display a list of requested pyramids");
     printMenuCommand('q', "Quit");
     printMenuLine();
   }
