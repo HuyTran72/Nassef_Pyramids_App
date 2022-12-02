@@ -1,4 +1,4 @@
-package com.egyptianExample;
+package com.example;
 
 import java.util.*;
 import org.json.simple.*;
@@ -36,7 +36,7 @@ public class EgyptianPyramidsAppExample {
   public EgyptianPyramidsAppExample() {
     // read egyptian pharaohs
     String pharaohFile =
-      "/Users/jerom/Documents/GitHub/class-java/egyptian-pyramids/demo/src/main/java/com/egyptianExample/pharaoh.json";
+      "//Users/kennytran/Documents/FALL 2022/CIS 055/Nassef _Pyramids_App/demo/src/main/java/com/example/pharaoh.json";
     JSONArray pharaohJSONArray = JSONFile.readArray(pharaohFile);
 
     // create and intialize the pharaoh array
@@ -44,7 +44,7 @@ public class EgyptianPyramidsAppExample {
 
     // read pyramids
     String pyramidFile =
-      "/Users/jerom/Documents/GitHub/class-java/egyptian-pyramids/demo/src/main/java/com/egyptian/pyramid.json";
+      "//Users/kennytran/Documents/FALL 2022/CIS 055/Nassef _Pyramids_App/demo/src/main/java/com/example/pyramid.json";
     JSONArray pyramidJSONArray = JSONFile.readArray(pyramidFile);
 
     // create and initialize the pyramid array
